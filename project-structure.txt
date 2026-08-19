@@ -1,4 +1,4 @@
-Geek-Text-API/
+BiblioTech-API/
 ├── app/
 │   ├── main.py
 │   ├── api/

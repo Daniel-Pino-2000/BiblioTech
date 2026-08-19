@@ -8,7 +8,7 @@ from app.api.routers.author import router as author_router
 from app.api.routers.cart import router as cart_router
 
 # Provides a database session for each request
-app = FastAPI(title="Geek Text API")
+app = FastAPI(title="BiblioTech API")
 
 # Create FastAPI application instance
 app.include_router(users_router)
@@ -22,7 +22,7 @@ Base.metadata.create_all(bind=engine)
 
 @app.get("/")
 def root():
-    return {"message": "Geek Text API running"}
+    return {"message": "BiblioTech API running"}
 
 # Register routers (controllers) with the application
 @app.get("/health")

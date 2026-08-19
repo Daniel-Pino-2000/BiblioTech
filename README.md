@@ -1,7 +1,7 @@
-# Geek Text API
+# BiblioTech API
 
 ## Project Overview
-Geek Text is a RESTful backend API for an online bookstore focused on technology-related books.  
+BiblioTech is a RESTful backend API for an online bookstore focused on technology-related books.  
 This project is developed for the **CEN 4010 – Software Engineering** course and follows the Scrum methodology.
 
 The system provides REST endpoints that handle business logic and data persistence for the application.
@@ -19,7 +19,7 @@ The system provides REST endpoints that handle business logic and data persisten
 ### Project Structure
 
 ```text
-Geek-Text-API/
+BiblioTech-API/
 ├── app/
 │   ├── main.py
 │   ├── api/
