@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 
+from app.schemas.book import BookResponse
+
 
 # -------------------------
 # RESPONSE MODEL
@@ -50,6 +52,7 @@ class WishlistItemResponse(BaseModel):
     id: int
     wishlist_id: int
     book_id: int
+    book: BookResponse
 
     class Config:
         from_attributes = True

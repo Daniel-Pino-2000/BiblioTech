@@ -10,6 +10,30 @@ from app.models.rating import Rating
 from app.schemas.book import BookCreate
 
 
+def list_books(db: Session, search: str | None = None, genre: str | None = None, skip: int = 0, limit: int = 20):
+    """
+    Browse/search the catalog with optional filters and pagination.
+
+    Args:
+        db: SQLAlchemy session used to query the database.
+        search: Optional case-insensitive substring match against the title.
+        genre: Optional exact genre filter.
+        skip: Number of results to skip (pagination offset).
+        limit: Maximum number of results to return.
+
+    Returns:
+        A list of Book objects matching the given filters.
+    """
+    query = db.query(Book)
+
+    if search:
+        query = query.filter(Book.title.ilike(f"%{search}%"))
+    if genre:
+        query = query.filter(Book.genre == genre)
+
+    return query.order_by(Book.title).offset(skip).limit(limit).all()
+
+
 def get_books_by_genre(db: Session, genre: str):
     """
     Retrieve all books that belong to a specific genre.
@@ -124,3 +148,7 @@ def create_book(db: Session, book: BookCreate):
 # Fetch a book from the database by its ISBN
 def get_book_by_isbn(db: Session, isbn: str):
     return db.query(Book).filter(Book.isbn == isbn).first()
+
+# Fetch a book from the database by its numeric ID
+def get_book_by_id(db: Session, book_id: int):
+    return db.query(Book).filter(Book.id == book_id).first()
