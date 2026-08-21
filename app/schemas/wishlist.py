@@ -18,7 +18,6 @@ class WishlistResponse(BaseModel):
 # CREATE MODEL
 # -------------------------
 class WishlistCreate(BaseModel):
-    user_id: int
     name: str
 
 

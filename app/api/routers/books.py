@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.api.deps import get_db
+from app.api.deps import get_db, get_current_admin_user
+from app.models.user import User
 from app.schemas.book import BookCreate, BookResponse
 from app.services import book_service
 
@@ -18,7 +19,8 @@ def top_sellers(db: Session = Depends(get_db)):
 def discount_books(
     publisher: str,
     discount: float,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_admin_user),
 ):
     book_service.discount_books_by_publisher(db, publisher, discount)
     return {"message": "Discount applied successfully"}
@@ -27,9 +29,13 @@ def discount_books(
 def browse_by_rating(min_rating: float, db: Session = Depends(get_db)):
     return book_service.get_books_by_min_rating(db, min_rating)
 
-# Create a new book and save it to the database
-@router.post("/create-book", response_model=BookResponse)
-def create_book(book: BookCreate, db: Session = Depends(get_db)):
+# Create a new book and save it to the database (admin-only action)
+@router.post("/create-book", response_model=BookResponse, status_code=201)
+def create_book(
+    book: BookCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_admin_user),
+):
     return book_service.create_book(db, book)
 
 # Retrieve a book using its ISBN
