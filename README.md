@@ -8,15 +8,27 @@ Originally built for **CEN 4010 – Software Engineering**, since hardened into 
 production-shaped portfolio project: authenticated/authorized REST API, automated tests,
 versioned database migrations, containerized local dev, and CI.
 
-![Catalog page](docs/screenshots/catalog.jpg)
-![Book detail page](docs/screenshots/book-detail.jpg)
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/catalog.jpg" alt="Catalog page"><br><sub>Catalog — search/genre filter</sub></td>
+<td width="50%"><img src="docs/screenshots/book-detail.jpg" alt="Book detail page"><br><sub>Book detail — rating, comments</sub></td>
+</tr>
+<tr>
+<td width="50%"><img src="docs/screenshots/cart.jpg" alt="Cart page"><br><sub>Cart — quantity + live subtotal</sub></td>
+<td width="50%"><img src="docs/screenshots/wishlist.jpg" alt="Wishlist page"><br><sub>Wishlist</sub></td>
+</tr>
+<tr>
+<td width="50%"><img src="docs/screenshots/admin.jpg" alt="Admin add-a-book page"><br><sub>Admin — add a book</sub></td>
+<td width="50%"><img src="docs/screenshots/login.jpg" alt="Login page"><br><sub>Login</sub></td>
+</tr>
+</table>
 
 ---
 
 ## Features
 
 - **Catalog** — browse/search books by title and genre, paginated; top sellers; filter by
-  minimum rating; per-publisher discounts (admin).
+  minimum rating; admin page for adding books, plus per-publisher discounts via `/docs`.
 - **Auth** — registration, JWT login (OAuth2 password flow), bcrypt-hashed passwords, and
   role-based access (regular users vs. admins who manage the catalog).
 - **Ratings & comments** — one rating per user per book (create-or-update), threaded
