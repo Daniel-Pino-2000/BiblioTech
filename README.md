@@ -8,6 +8,11 @@ Originally built for **CEN 4010 – Software Engineering**, since hardened into 
 production-shaped portfolio project: authenticated/authorized REST API, automated tests,
 versioned database migrations, containerized local dev, and CI.
 
+For a from-first-principles walkthrough of how and why this project is built the way it
+is — REST design, auth vs. authorization, migrations, testing strategy, a Docker primer,
+and a playbook for building something similar yourself — see
+[`docs/BiblioTech-Development-Guide.pdf`](docs/BiblioTech-Development-Guide.pdf).
+
 <table>
 <tr>
 <td width="50%"><img src="docs/screenshots/catalog.jpg" alt="Catalog page"><br><sub>Catalog — search/genre filter</sub></td>

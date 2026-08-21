@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BiblioTech — Development &amp; Learning Guide</title>
+<style>
+  @page {
+    size: letter;
+    margin: 2.1cm 2.2cm 2.4cm 2.2cm;
+    @frame footer_frame {
+      -pdf-frame-content: footer_content;
+      bottom: 1cm; margin-left: 2.2cm; margin-right: 2.2cm; height: 1cm;
+    }
+  }
+  body {
+    font-family: "Helvetica", "Arial", sans-serif;
+    font-size: 10.3pt;
+    line-height: 1.55;
+    color: #22252b;
+  }
+
+  #footer_content {
+    font-size: 8pt;
+    color: #8a8f9c;
+    text-align: center;
+    border-top: 0.5pt solid #dcdfe6;
+    padding-top: 4pt;
+  }
+
+  /* Cover page: a colored band followed by plain white space, all within
+     normal page margins -- deliberately not a full-bleed background, which
+     xhtml2pdf's pagination handles unreliably for tall padded boxes. */
+  .cover-band {
+    background-color: #16324a;
+    padding: 1.4cm 1.6cm;
+    margin: -0.3cm -0.4cm 0 -0.4cm;
+  }
+  .cover-band .eyebrow {
+    color: #7ee0c3;
+    font-size: 10.5pt;
+    letter-spacing: 2pt;
+    font-family: "Courier New", monospace;
+    margin-bottom: 8pt;
+  }
+  .cover-title {
+    color: #ffffff;
+    font-size: 30pt;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.15;
+  }
+  .cover-body {
+    padding-top: 1.6cm;
+  }
+  .cover-body .subtitle {
+    color: #454b58;
+    font-size: 13pt;
+    line-height: 1.6;
+    width: 85%;
+  }
+  .cover-body .meta {
+    color: #6b7086;
+    font-size: 9.5pt;
+    margin-top: 40pt;
+    font-family: "Courier New", monospace;
+    border-top: 0.5pt solid #dcdfe6;
+    padding-top: 12pt;
+  }
+  .cover-body .meta div { margin-bottom: 4pt; }
+
+  /* Headings */
+  h1 {
+    font-size: 19pt;
+    color: #16324a;
+    border-bottom: 1.5pt solid #16324a;
+    padding-bottom: 6pt;
+    margin-top: 0;
+    margin-bottom: 14pt;
+    page-break-before: always;
+  }
+  h1.nobreak { page-break-before: avoid; }
+
+  h2 {
+    font-size: 13.5pt;
+    color: #16324a;
+    margin-top: 20pt;
+    margin-bottom: 8pt;
+  }
+
+  h3 {
+    font-size: 11pt;
+    color: #375ee0;
+    margin-top: 14pt;
+    margin-bottom: 6pt;
+  }
+
+  p { margin: 0 0 9pt 0; text-align: left; }
+
+  ul, ol { margin: 0 0 10pt 0; padding-left: 16pt; }
+  li { margin-bottom: 4pt; }
+
+  strong { color: #16324a; }
+
+  a { color: #375ee0; }
+
+  /* Code */
+  code {
+    font-family: "Courier New", monospace;
+    font-size: 9pt;
+    background-color: #eef0f4;
+    padding: 1pt 3pt;
+    color: #16324a;
+  }
+
+  pre {
+    font-family: "Courier New", monospace;
+    font-size: 8.7pt;
+    background-color: #1b1e27;
+    color: #d7dae2;
+    padding: 9pt 11pt;
+    margin: 6pt 0 12pt 0;
+    line-height: 1.5;
+  }
+  pre code { background-color: transparent; color: #d7dae2; padding: 0; }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8pt 0 14pt 0;
+    font-size: 9.3pt;
+  }
+  th {
+    background-color: #16324a;
+    color: #ffffff;
+    text-align: left;
+    padding: 5pt 7pt;
+    font-size: 8.7pt;
+    letter-spacing: 0.3pt;
+  }
+  td {
+    padding: 5pt 7pt;
+    border-bottom: 0.5pt solid #dcdfe6;
+    vertical-align: top;
+  }
+  tr.alt td { background-color: #f5f6f8; }
+
+  /* Callouts */
+  .callout {
+    padding: 8pt 11pt;
+    margin: 8pt 0 14pt 0;
+    border-left: 3pt solid #375ee0;
+    background-color: #eef2fd;
+    font-size: 9.5pt;
+  }
+  .callout.warn { border-left-color: #a8571a; background-color: #fbeee0; }
+  .callout.tip { border-left-color: #1f8a5f; background-color: #e5f5ee; }
+  .callout .label {
+    font-family: "Courier New", monospace;
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 3pt;
+  }
+  .callout.warn .label { color: #a8571a; }
+  .callout.tip .label { color: #1f8a5f; }
+  .callout .label.note { color: #375ee0; }
+
+  /* TOC */
+  .toc-item {
+    padding: 4pt 0;
+    border-bottom: 0.5pt dotted #c5cad6;
+    font-size: 10.5pt;
+  }
+  .toc-num {
+    font-family: "Courier New", monospace;
+    color: #375ee0;
+    width: 22pt;
+    display: inline-block;
+  }
+
+  .small { font-size: 8.7pt; color: #6b7086; }
+</style>
+</head>
+<body>
+
+<div id="footer_content">BiblioTech — Development &amp; Learning Guide</div>
+
+<!-- ============ COVER ============ -->
+<div class="cover-band">
+  <div class="eyebrow">FASTAPI · REACT · MYSQL · DOCKER</div>
+  <div class="cover-title">BiblioTech</div>
+</div>
+<div class="cover-body">
+  <div class="subtitle">
+    A development and learning guide: what this project is, how it was built,
+    the concepts behind every major decision, and a primer on Docker written
+    for someone building something like this for the first time.
+  </div>
+  <div class="meta">
+    <div>Repository: github.com/Daniel-Pino-2000/BiblioTech</div>
+    <div>Generated: August 2026</div>
+    <div>Prepared by Claude, working alongside the project's author</div>
+  </div>
+</div>
+
+<!-- ============ TOC ============ -->
+<h1 class="nobreak">Contents</h1>
+<div class="toc-item"><span class="toc-num">1</span> What BiblioTech is, and why it exists</div>
+<div class="toc-item"><span class="toc-num">2</span> How it was actually built — the development timeline</div>
+<div class="toc-item"><span class="toc-num">3</span> Architecture: how a request flows through the system</div>
+<div class="toc-item"><span class="toc-num">4</span> REST APIs, explained through this project</div>
+<div class="toc-item"><span class="toc-num">5</span> Authentication and authorization — and the difference between them</div>
+<div class="toc-item"><span class="toc-num">6</span> Databases, ORMs, and migrations</div>
+<div class="toc-item"><span class="toc-num">7</span> Automated testing — why, and how this project does it</div>
+<div class="toc-item"><span class="toc-num">8</span> Docker, from zero: what it is and how this project uses it</div>
+<div class="toc-item"><span class="toc-num">9</span> Continuous integration (CI)</div>
+<div class="toc-item"><span class="toc-num">10</span> The frontend: how it talks to the backend</div>
+<div class="toc-item"><span class="toc-num">11</span> Mistakes made and fixed along the way — real lessons</div>
+<div class="toc-item"><span class="toc-num">12</span> A playbook for building your own version of this</div>
+<div class="toc-item"><span class="toc-num">13</span> Appendix: commands, tech stack, folder structure</div>
+
+
+<!-- ============ 1 ============ -->
+<h1>1. What BiblioTech is, and why it exists</h1>
+
+<p>BiblioTech is a full-stack bookstore application for technical books. A user can browse
+and search a catalog, read and leave ratings/comments, keep a shopping cart, maintain
+wishlists, and manage their profile. An admin account can add new books and run
+publisher-wide discounts. Under the hood it's a FastAPI REST API backed by MySQL, with a
+React/TypeScript single-page app as the frontend.</p>
+
+<p>It started as a course project for <strong>CEN 4010 — Software Engineering</strong>, built
+around a Scrum-style feature breakdown (a router, service, and set of models per domain:
+users, books, authors, ratings, wishlist, cart). That version worked, but it had the shape
+of a class assignment: no authentication, no tests, a schema created by a single
+<code>create_all()</code> call, and at least one outright bug that made an endpoint crash on
+every call.</p>
+
+<p>The purpose of the work documented in this guide was to take that assignment and turn it
+into something that demonstrates real engineering judgment — the kind of project a hiring
+manager can open, read, run, and trust. That meant closing every gap between "it works on
+my machine, once, if nothing goes wrong" and "this is how you'd actually build and ship a
+backend service."</p>
+
+<div class="callout tip">
+<span class="label">Why this matters for a portfolio</span>
+A CRUD app that works is table stakes. What actually differentiates a project is whether it
+shows you understand <em>why</em> a real system needs authentication, authorization,
+migrations, tests, and CI — not just that you can copy a tutorial. Every section in this
+guide ties a concept back to a specific, real decision made in this codebase.
+</div>
+
+
+<!-- ============ 2 ============ -->
+<h1>2. How it was actually built — the development timeline</h1>
+
+<p>This project wasn't built in one pass. It went through the same phases most real backend
+work goes through: get something running, find out what's actually broken, harden it,
+prove it works, then make it deployable. Here's the real order of operations, because the
+order matters as much as the individual steps — you can't meaningfully write tests before
+you have authentication to test, and you can't write a useful CI pipeline before you have
+tests for it to run.</p>
+
+<table>
+<tr><th style="width:18%">Phase</th><th>What happened</th><th style="width:22%">Why this order</th></tr>
+<tr><td><strong>1. Audit</strong></td><td>Read every router, service, model, and schema.
+Found a broken endpoint (book creation crashed on every call — it inserted a Pydantic
+object instead of a database row), a wrong-column bug in cart removal, and a
+<code>requirements.txt</code> saved in the wrong text encoding so a fresh install couldn't
+even start the app.</td><td>You can't harden code you haven't actually read. Bugs found
+here would have undermined every later step.</td></tr>
+<tr class="alt"><td><strong>2. Fix bugs</strong></td><td>Fixed the three issues above before
+touching anything else.</td><td>No point building auth on top of an endpoint that
+doesn't work.</td></tr>
+<tr><td><strong>3. Authentication</strong></td><td>Added password hashing (bcrypt), JWT
+login, and the two auth dependencies (<code>get_current_user</code>,
+<code>get_current_admin_user</code>) every protected route now uses.</td><td>Nothing else
+— authorization, tests, a real admin flow — is possible without this existing first.</td></tr>
+<tr class="alt"><td><strong>4. Authorization</strong></td><td>Went endpoint by endpoint and
+added ownership checks: a user can only read/modify <em>their own</em> cart, wishlist, and
+profile. Catalog writes became admin-only.</td><td>Authentication answers "who are you?" —
+authorization answers "are you allowed to do this?" A project with one but not the other is
+still insecure.</td></tr>
+<tr><td><strong>5. Security hardening</strong></td><td>Stopped storing full credit card
+numbers (last 4 digits only).</td><td>A small, concrete example of "secure by design"
+rather than "secure by accident."</td></tr>
+<tr class="alt"><td><strong>6. Fill API gaps</strong></td><td>Added a proper
+<code>GET /books</code> search/pagination endpoint (there was previously no way to browse
+the whole catalog) and a book-by-id lookup.</td><td>These gaps only became obvious once
+building a frontend required them.</td></tr>
+<tr><td><strong>7. Migrations</strong></td><td>Replaced <code>Base.metadata.create_all()</code>
+with Alembic — a real, versioned migration history.</td><td>Needed a stable schema
+(everything above had to land first) before generating the initial migration.</td></tr>
+<tr class="alt"><td><strong>8. Tests</strong></td><td>27 pytest tests covering auth,
+cross-user authorization boundaries, and every domain.</td><td>Tests are only meaningful
+once there's real behavior (auth, ownership checks) worth protecting against regression.</td></tr>
+<tr><td><strong>9. Docker + CI</strong></td><td>Dockerfile, docker-compose (API + MySQL),
+and a GitHub Actions workflow running the test suite and validating migrations on every
+push.</td><td>CI needs tests to run; Docker needs a stable app to containerize.</td></tr>
+<tr class="alt"><td><strong>10. Frontend</strong></td><td>A React/TypeScript SPA:
+catalog, book detail, cart, wishlist, auth, profile, and later an admin page.</td><td>
+Building the UI against a half-finished API would have meant redoing frontend work every
+time the API changed underneath it.</td></tr>
+<tr><td><strong>11. Documentation</strong></td><td>README, in-code docstrings, this guide.</td>
+<td>Documentation describes a finished, working thing — writing it earlier means rewriting
+it later anyway.</td></tr>
+</table>
+
+<div class="callout note">
+<span class="label note">A note on commit history</span>
+Every change above was committed separately and in this order — 16+ small, single-purpose
+commits rather than one enormous diff. That's not cosmetic: a reviewer (or you, six months
+from now) can look at <code>git log</code> and understand the story of the project without
+reading a single line of code. If you build something similar, commit as you go, in
+logical units — don't wait until the end and dump everything into one commit.
+</div>
+
+
+<!-- ============ 3 ============ -->
+<h1>3. Architecture: how a request flows through the system</h1>
+
+<p>The backend follows a layered architecture. Each layer has exactly one job, which makes
+the code easier to test and easier to change without breaking something unrelated:</p>
+
+<table>
+<tr><th style="width:20%">Layer</th><th style="width:35%">Folder</th><th>Responsibility</th></tr>
+<tr><td><strong>Router</strong></td><td><code>app/api/routers/</code></td>
+<td>HTTP only: parse the request, call a dependency (auth check, DB session), call the
+service layer, shape the response. No business logic and no direct database queries live
+here.</td></tr>
+<tr class="alt"><td><strong>Service</strong></td><td><code>app/services/</code></td>
+<td>Business logic and database queries. "Can a user have more than 3 wishlists?" is
+answered here, not in the router.</td></tr>
+<tr><td><strong>Model</strong></td><td><code>app/models/</code></td>
+<td>SQLAlchemy ORM classes — one per database table, plus the relationships between
+them.</td></tr>
+<tr class="alt"><td><strong>Schema</strong></td><td><code>app/schemas/</code></td>
+<td>Pydantic classes defining exactly what shape of JSON goes in and comes out of each
+endpoint. This is also what generates the interactive docs at <code>/docs</code>.</td></tr>
+</table>
+
+<p>Walking through one concrete example end to end — a logged-in user adding a book to
+their cart (<code>POST /cart/add?user_id=3&amp;book_id=7</code>):</p>
+
+<ol>
+<li><strong>FastAPI</strong> matches the route in <code>app/api/routers/cart.py</code> and
+resolves its dependencies first: <code>get_db</code> opens a database session,
+<code>get_current_user</code> decodes the JWT bearer token into a <code>User</code> row.</li>
+<li>The route function calls <code>_ensure_self(user_id, current_user)</code> — a small
+local check that 403s if the token's user doesn't match the <code>user_id</code> in the
+URL. This is the authorization step: being logged in isn't enough, you have to be
+<em>this specific user</em>.</li>
+<li>It calls <code>cart_service.add_item_to_cart(db, user_id, book_id)</code>, which finds
+or creates the user's cart, checks whether the book is already in it, and either bumps the
+quantity or inserts a new <code>CartItem</code> row.</li>
+<li>The router returns a small JSON confirmation. FastAPI serializes it automatically based
+on the endpoint's return type.</li>
+</ol>
+
+<p>The frontend mirrors this layering: <code>frontend/src/api/*.ts</code> are thin wrappers
+around <code>fetch</code> (one file per backend resource), <code>context/AuthContext.tsx</code>
+holds session state, and <code>pages/*.tsx</code> compose the two into actual screens.</p>
+
+
+<!-- ============ 4 ============ -->
+<h1>4. REST APIs, explained through this project</h1>
+
+<p>"REST" is a set of conventions for designing an HTTP API so that its shape is
+predictable. The core idea: URLs identify <em>resources</em> (a book, a user, a cart), and
+HTTP methods describe the <em>action</em> on that resource.</p>
+
+<table>
+<tr><th style="width:14%">Method</th><th style="width:38%">Example in this API</th><th>Meaning</th></tr>
+<tr><td><code>GET</code></td><td><code>GET /books/{isbn}</code></td><td>Read one resource. Never changes anything.</td></tr>
+<tr class="alt"><td><code>GET</code></td><td><code>GET /books?search=clean</code></td><td>Read a collection, optionally filtered.</td></tr>
+<tr><td><code>POST</code></td><td><code>POST /books/create-book</code></td><td>Create a new resource.</td></tr>
+<tr class="alt"><td><code>PATCH</code></td><td><code>PATCH /users/{username}</code></td><td>Partially update an existing resource.</td></tr>
+<tr><td><code>DELETE</code></td><td><code>DELETE /cart/remove</code></td><td>Remove a resource (or, here, decrement one).</td></tr>
+</table>
+
+<p>A few concrete design choices in this API, and the reasoning behind them:</p>
+
+<ul>
+<li><strong>Status codes carry meaning.</strong> A successful creation returns
+<code>201 Created</code>, not a generic <code>200</code>. A missing resource returns
+<code>404</code>. An authenticated-but-not-allowed request returns <code>403</code>, while
+a not-authenticated-at-all request returns <code>401</code> — these are different failure
+modes and a well-behaved API distinguishes them.</li>
+<li><strong>Route ordering matters when paths overlap.</strong> In
+<code>app/api/routers/books.py</code>, static routes like <code>/books/top-sellers</code>
+are registered <em>before</em> the catch-all <code>/books/{isbn}</code>. FastAPI matches
+path templates in registration order, so if the catch-all came first, a request for
+<code>/books/top-sellers</code> would get swallowed by the ISBN-lookup route with
+<code>isbn="top-sellers"</code>.</li>
+<li><strong>Response shape is explicit, not "whatever the ORM object happens to have."</strong>
+Every endpoint declares a Pydantic <code>response_model</code>. This means a password hash
+can never accidentally leak in a response — the schema simply doesn't include that field,
+no matter what's on the underlying database row.</li>
+<li><strong>Nesting related data avoids extra round-trips.</strong> A wishlist item's
+response includes the full book (title, price, etc.), not just a bare <code>book_id</code>
+the frontend would then have to look up separately. Compare this to the cart, which already
+did this — the wishlist schema was changed to match once the inconsistency became
+obvious while building the frontend.</li>
+</ul>
+
+<div class="callout note">
+<span class="label note">Why FastAPI specifically</span>
+FastAPI generates the interactive documentation at <code>/docs</code> directly from your
+Python type hints and Pydantic schemas — you get a fully working API explorer for free,
+with no separate documentation to keep in sync. It's also built on Starlette/ASGI, so it's
+async-native, though this project uses it synchronously (SQLAlchemy's classic sync API)
+since the added complexity of async DB drivers wasn't worth it at this scale.
+</div>
+
+
+<!-- ============ 5 ============ -->
+<h1>5. Authentication and authorization — and the difference between them</h1>
+
+<p>These two words get used interchangeably in casual conversation, but they answer
+different questions, and this project treats them as genuinely separate concerns.</p>
+
+<p><strong>Authentication</strong> answers: <em>who are you?</em> A user proves their
+identity once, at login, by presenting a username and password.</p>
+
+<p><strong>Authorization</strong> answers: <em>are you allowed to do this specific thing?</em>
+Every single request after login has to be checked again — being a known, logged-in user
+doesn't automatically mean you're allowed to read someone else's cart.</p>
+
+<h2>How authentication works here (JWT)</h2>
+
+<ol>
+<li>A user submits credentials to <code>POST /auth/login</code>.</li>
+<li><code>users_service.authenticate_user</code> looks up the user and calls
+<code>verify_password</code>, which runs bcrypt's comparison — the stored value is a
+one-way hash, so this never "decrypts" anything, it re-hashes the login attempt and
+compares.</li>
+<li>On success, <code>create_access_token</code> builds a JWT: a signed, tamper-evident
+token containing the username and an expiry, encoded with a secret key only the server
+knows (<code>SECRET_KEY</code>).</li>
+<li>The frontend stores that token (in <code>localStorage</code>) and attaches it as
+<code>Authorization: Bearer &lt;token&gt;</code> on every subsequent request that needs
+auth.</li>
+<li>On each such request, <code>get_current_user</code> decodes and verifies the token's
+signature, pulls out the username, and loads the matching <code>User</code> row fresh from
+the database. If the signature doesn't check out or the token's expired, it's a
+<code>401</code>.</li>
+</ol>
+
+<div class="callout tip">
+<span class="label">Why a JWT instead of a server-side session</span>
+A JWT is self-contained and signed — the server doesn't need to store anything to validate
+it (no session table, no server-side lookup on every request beyond the DB query to fetch
+the user). The tradeoff is that a JWT can't be "revoked" the way deleting a session row
+can; it's simply valid until it expires. For a project this size that tradeoff is a
+non-issue; for a system needing instant revocation (e.g. immediately locking out a
+compromised account), you'd add a server-side denylist or move to short-lived tokens with
+refresh tokens.
+</div>
+
+<h2>How authorization works here</h2>
+
+<p>Two layers, both real:</p>
+
+<ol>
+<li><strong>Role-based:</strong> <code>get_current_admin_user</code> is the same as
+<code>get_current_user</code>, plus a check that <code>current_user.is_admin</code> is
+true. Used on catalog-mutating routes.</li>
+<li><strong>Ownership-based:</strong> most routes aren't about roles at all — they're about
+whether <em>this specific resource</em> belongs to <em>this specific caller</em>. A helper
+like <code>_ensure_self</code> in <code>cart.py</code> and <code>users.py</code> compares
+the resource's owner id against <code>current_user.id</code> and raises <code>403</code> on
+a mismatch. The wishlist router does the analogous check by loading the wishlist and
+comparing <code>wishlist.user_id</code>.</li>
+</ol>
+
+<div class="callout warn">
+<span class="label">The bug this project fixed</span>
+Before this pass, none of the cart/wishlist/profile endpoints checked ownership at all —
+any authenticated user could read or empty <em>any other user's</em> cart just by changing
+a number in the URL. This is one of the most common real-world API vulnerabilities
+(sometimes called IDOR — Insecure Direct Object Reference). It's an easy thing to miss
+because the endpoint "works" in every manual test where you're only ever testing as
+yourself.
+</div>
+
+<h2>Granting admin: a deliberate non-feature</h2>
+
+<p>There is no HTTP endpoint anywhere in this API that grants admin rights to a user. That
+absence is intentional, not an oversight. Promoting an account to admin is a privileged,
+infrequent action — exposing it over HTTP, even behind an "admin-only" check, adds attack
+surface for a feature that's barely ever used and is unusually dangerous if abused. Instead,
+<code>scripts/make_admin.py</code> is a small command-line script that talks to the database
+directly. This mirrors how many real systems handle "break glass" operations: through
+ops-only tooling, not the public API.</p>
+
+
+<!-- ============ 6 ============ -->
+<h1>6. Databases, ORMs, and migrations</h1>
+
+<h2>What an ORM is doing for you</h2>
+
+<p>SQLAlchemy is an <strong>Object-Relational Mapper</strong>: it lets you work with Python
+classes and objects (<code>User</code>, <code>Book</code>) instead of writing raw SQL for
+every query, and it translates between the two. A model like:</p>
+
+<pre><code>class Book(Base):
+    __tablename__ = "books"
+    id = Column(Integer, primary_key=True)
+    title = Column(String(255), nullable=False)
+    price = Column(DECIMAL(10, 2), nullable=False)
+    author_id = Column(Integer, ForeignKey("authors.id"))
+    author = relationship("Author", back_populates="books")</code></pre>
+
+<p>declares both the table's shape (columns, types, constraints) and its relationships to
+other tables. <code>db.query(Book).filter(Book.genre == "Systems").all()</code> becomes a
+real <code>SELECT</code> statement, and <code>book.author.first_name</code> triggers a
+second query (or a join, depending on how it's loaded) instead of you writing that join by
+hand.</p>
+
+<h2>Why migrations instead of just creating tables</h2>
+
+<p>The original version of this project called <code>Base.metadata.create_all()</code> on
+startup — it looked at the current model definitions and created any tables that didn't
+exist yet. That works for a brand new, empty database, but it has a fatal limitation: it
+never <em>changes</em> an existing table. Rename a column, add a constraint, and
+<code>create_all()</code> does nothing — the running database silently drifts out of sync
+with the code.</p>
+
+<p><strong>Alembic</strong> solves this by keeping a versioned history of schema changes as
+Python scripts (<code>alembic/versions/*.py</code>), each with an <code>upgrade()</code> and
+a <code>downgrade()</code>. Instead of "make the schema match the models" once, you get:</p>
+
+<pre><code># after changing a model:
+alembic revision --autogenerate -m "add is_admin to users"
+alembic upgrade head
+
+# to roll back the most recent change:
+alembic downgrade -1</code></pre>
+
+<p>Every environment — your laptop, a teammate's laptop, CI, production — runs the same
+ordered list of migrations and ends up with an identical schema. This project's
+<code>alembic/env.py</code> is wired to import <code>app.database.DATABASE_URL</code>
+directly, so the same migrations apply whether you're pointed at a local SQLite file or a
+deployed MySQL instance.</p>
+
+<div class="callout tip">
+<span class="label">A trick worth stealing</span>
+This project verifies migrations by generating and applying them against a disposable
+SQLite database first (<code>DATABASE_URL=sqlite:///./_check.db alembic upgrade head</code>),
+even though production runs MySQL. It's not a perfect substitute for testing against the
+real engine, but it catches ordering bugs (a foreign key referencing a table that hasn't
+been created yet) and typos without needing a MySQL server running locally. The GitHub
+Actions workflow does the same thing on every push.
+</div>
+
+
+<!-- ============ 7 ============ -->
+<h1>7. Automated testing — why, and how this project does it</h1>
+
+<p>The 27 tests in <code>tests/</code> exist to answer one question automatically, every
+time the code changes: <em>did I just break something that used to work?</em> Without
+tests, that question only gets answered by manually clicking through the app — which is
+slow, easy to skip under deadline pressure, and never covers every edge case (particularly
+security-relevant ones, like "can user B read user A's cart").</p>
+
+<h2>The key trick: an isolated test database</h2>
+
+<p><code>tests/conftest.py</code> overrides the app's <code>get_db</code> dependency with
+one pointed at an in-memory SQLite database, rebuilt fresh before every single test:</p>
+
+<pre><code>@pytest.fixture(autouse=True)
+def _reset_db():
+    Base.metadata.create_all(bind=engine)
+    yield
+    Base.metadata.drop_all(bind=engine)
+
+app.dependency_overrides[get_db] = override_get_db</code></pre>
+
+<p>This means tests never touch your real development database, never leave behind test
+users or fake books, and can run in any order without one test's leftover data breaking
+another. It also means the test suite needs zero external setup — no MySQL server, no
+seed data — which is exactly why it can run unmodified in GitHub Actions.</p>
+
+<h2>What's actually being tested</h2>
+
+<p>Beyond basic "does this endpoint return what I expect," a meaningful chunk of the suite
+exists specifically to prove the authorization work actually holds:</p>
+
+<pre><code>def test_cannot_access_another_users_cart(client, admin_headers, auth_headers, make_user):
+    bob_headers = make_user("bob")
+    user_id = _my_id(client, auth_headers)
+
+    resp = client.get(f"/cart/items/{user_id}", headers=bob_headers)
+    assert resp.status_code == 403</code></pre>
+
+<p>This is the difference between "the app works" and "the app is actually secure" — a test
+suite that only checks the happy path would never have caught the IDOR bug mentioned in
+Section 5.</p>
+
+
+<!-- ============ 8 ============ -->
+<h1>8. Docker, from zero: what it is and how this project uses it</h1>
+
+<h2>The problem Docker solves</h2>
+
+<p>"It works on my machine" is a real and common failure mode: your laptop has Python 3.13,
+a specific version of MySQL, certain environment variables set, and a dozen other small
+facts about its state that you've forgotten are load-bearing. Someone else's machine — or
+your production server — doesn't have all of that, and the app breaks in ways that are
+maddening to debug because the <em>code</em> didn't change.</p>
+
+<p>A <strong>container</strong> packages your application together with everything it needs
+to run — the exact Python version, every dependency, the OS-level libraries — into a single
+unit that behaves identically no matter where it runs. It's not a full virtual machine
+(which would emulate entire hardware and run a full separate OS kernel); it's a lighter-weight
+isolation built on features of the host's own Linux kernel, which is why containers start in
+under a second and share the host's kernel instead of booting their own.</p>
+
+<h2>The core building blocks</h2>
+
+<table>
+<tr><th style="width:26%">Term</th><th>What it means</th></tr>
+<tr><td><strong>Image</strong></td><td>A read-only snapshot: your app's code plus every
+dependency and OS package it needs, built in layers. Think of it as a frozen, portable
+installation.</td></tr>
+<tr class="alt"><td><strong>Container</strong></td><td>A running instance of an image.
+You can start several containers from the same image at once, each isolated from the
+others.</td></tr>
+<tr><td><strong>Dockerfile</strong></td><td>A text file of instructions describing how to
+build an image, step by step (install dependencies, copy code in, define the startup
+command).</td></tr>
+<tr class="alt"><td><strong>docker-compose.yml</strong></td><td>Describes a set of
+containers that need to run together — in this project, the API and a MySQL database — and
+how they're networked and configured, so <code>docker compose up</code> starts the whole
+stack with one command.</td></tr>
+<tr><td><strong>Registry</strong></td><td>A place images are stored and pulled from (Docker
+Hub is the default public one). Deploy platforms like Railway build your image and run it
+without you ever pushing to a registry yourself.</td></tr>
+</table>
+
+<h2>This project's Dockerfile, annotated</h2>
+
+<pre><code>FROM python:3.13-slim              # start from a minimal official Python image
+
+WORKDIR /app                       # everything below happens in /app inside the container
+
+RUN apt-get update \               # OS-level packages PyMySQL's C extension needs to build
+    && apt-get install -y --no-install-recommends default-libmysqlclient-dev build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .            # copied separately from the rest of the code on purpose --
+RUN pip install --no-cache-dir -r requirements.txt   # see callout below
+
+COPY alembic.ini .
+COPY alembic ./alembic
+COPY app ./app
+
+EXPOSE 8000                        # documents which port the app listens on
+
+CMD ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"]</code></pre>
+
+<div class="callout tip">
+<span class="label">Why requirements.txt is copied before the rest of the code</span>
+Docker caches each instruction's result as a layer, and reuses a cached layer if nothing
+that affects it has changed. Copying <code>requirements.txt</code> and running
+<code>pip install</code> <em>before</em> copying the application code means that as long as
+your dependencies haven't changed, Docker skips reinstalling them on every rebuild — only
+your actual code changes trigger a fast final layer. Copy everything in one step and every
+single code edit forces a full dependency reinstall.
+</div>
+
+<h2>What docker-compose.yml adds</h2>
+
+<p>A single container is one process. This app needs two things running together — the API
+and a database — and needs the API to wait until the database is actually ready to accept
+connections before it tries to run migrations against it. <code>docker-compose.yml</code>
+declares both services, a named volume so the database's data survives a container
+restart, and a healthcheck the API service waits on:</p>
+
+<pre><code>services:
+  db:
+    image: mysql:8.4
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", ...]
+      interval: 5s
+      retries: 10
+  backend:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy   # wait for the healthcheck, not just "container started"
+    environment:
+      DATABASE_URL: mysql+pymysql://root:...@db:3306/bibliotech</code></pre>
+
+<p>Notice the hostname in that <code>DATABASE_URL</code> is <code>db</code>, not
+<code>localhost</code> — Compose creates a private network where each service can reach the
+others by its service name.</p>
+
+<h2>Commands you'll actually use</h2>
+
+<table>
+<tr><th style="width:38%">Command</th><th>What it does</th></tr>
+<tr><td><code>docker compose up --build</code></td><td>Build images (if needed) and start
+every service, attached to your terminal so you see the logs.</td></tr>
+<tr class="alt"><td><code>docker compose up -d</code></td><td>Same, but detached — runs in
+the background.</td></tr>
+<tr><td><code>docker compose down</code></td><td>Stop and remove the containers (the named
+volume, and therefore your data, survives unless you also pass <code>-v</code>).</td></tr>
+<tr class="alt"><td><code>docker compose logs -f backend</code></td><td>Stream logs from
+just the backend service.</td></tr>
+<tr><td><code>docker ps</code></td><td>List running containers.</td></tr>
+<tr class="alt"><td><code>docker exec -it &lt;container&gt; sh</code></td><td>Open a shell
+inside a running container — useful for poking around when something's not behaving as
+expected.</td></tr>
+</table>
+
+<div class="callout warn">
+<span class="label">Honest note</span>
+Docker wasn't installed in the environment this project was actually built and tested in,
+so <code>docker compose up</code> for this specific repo was written carefully and reviewed,
+but never run end-to-end during development. Everything else in this guide was verified
+directly. If you hit an issue running it, that's the first place to look.
+</div>
+
+
+<!-- ============ 9 ============ -->
+<h1>9. Continuous integration (CI)</h1>
+
+<p>CI means: every time code is pushed, a server automatically runs your checks (tests,
+builds, linters) and tells you whether it's still healthy — without anyone having to
+remember to run them by hand. This project's pipeline (<code>.github/workflows/ci.yml</code>,
+running on GitHub Actions) does three things on every push or pull request to
+<code>main</code>:</p>
+
+<ol>
+<li>Installs backend dependencies and runs <code>pytest</code>.</li>
+<li>Validates that Alembic migrations apply cleanly against a scratch SQLite database.</li>
+<li>Installs frontend dependencies and runs <code>npm run build</code>, catching any
+TypeScript error that would otherwise only surface when someone tried to deploy.</li>
+</ol>
+
+<p>The value isn't really about catching mistakes <em>you'd</em> make — it's a safety net
+for the version of the project where more than one person is contributing, or where enough
+time has passed that you've forgotten a subtlety you used to hold in your head. A green
+checkmark on a pull request is a fast, objective answer to "is this safe to merge," instead
+of a manual re-verification every time.</p>
+
+
+<!-- ============ 10 ============ -->
+<h1>10. The frontend: how it talks to the backend</h1>
+
+<p>The frontend is a React + TypeScript single-page app built with Vite, using React Router
+for client-side navigation. It never touches the database directly — every piece of data on
+screen came from a <code>fetch</code> call to the API described in the earlier sections.</p>
+
+<h2>The shape of the frontend's own layering</h2>
+
+<table>
+<tr><th style="width:22%">Folder</th><th>Job</th></tr>
+<tr><td><code>api/</code></td><td>One typed module per backend resource
+(<code>books.ts</code>, <code>cart.ts</code>, ...), all built on a shared
+<code>client.ts</code> that wraps <code>fetch</code>: attaches the JWT, serializes the
+body, and turns a non-2xx response into a typed <code>ApiError</code> with the backend's
+actual error message.</td></tr>
+<tr class="alt"><td><code>context/AuthContext.tsx</code></td><td>The one source of truth for
+"who's logged in right now," exposed to the whole app via React Context so any component
+can read <code>user</code> or call <code>login</code>/<code>logout</code> without prop
+drilling.</td></tr>
+<tr><td><code>components/</code></td><td>Reusable pieces: <code>NavBar</code>,
+<code>BookCard</code>, <code>StarRating</code>, and <code>ProtectedRoute</code> (a route
+guard that redirects to <code>/login</code> if logged out, or home if an
+<code>adminOnly</code> page is hit by a non-admin).</td></tr>
+<tr class="alt"><td><code>pages/</code></td><td>One file per screen, composing the above
+into the actual UI.</td></tr>
+</table>
+
+<h2>Where the JWT actually lives</h2>
+
+<p>On login, the backend's token is stored in <code>localStorage</code> under a fixed key.
+Every subsequent authenticated request reads it back out and sends it as an
+<code>Authorization: Bearer &lt;token&gt;</code> header — this is the entire mechanism that
+makes the frontend "stay logged in." On page load, <code>AuthContext</code> checks for a
+stored token and, if one exists, calls <code>GET /auth/me</code> to restore the session;
+this is what survives a page refresh instead of bouncing straight to the login screen.</p>
+
+<h2>CORS: the other half of the auth story</h2>
+
+<p>The frontend and backend run on different origins in development
+(<code>localhost:5173</code> vs <code>localhost:8000</code>) — and different origins
+entirely once deployed. Browsers block cross-origin requests by default (Cross-Origin
+Resource Sharing). <code>app/main.py</code> explicitly allows the frontend's origin via
+<code>CORSMiddleware</code>, configured from the <code>CORS_ORIGINS</code> environment
+variable so it can be updated per-environment without a code change.</p>
+
+
+<!-- ============ 11 ============ -->
+<h1>11. Mistakes made and fixed along the way — real lessons</h1>
+
+<p>Every one of these actually happened during this project's development. They're included
+because the lesson from a real bug sticks better than a hypothetical one.</p>
+
+<h3>1. A UTF-16 requirements.txt</h3>
+<p><code>requirements.txt</code> had been saved with a UTF-16 encoding (visible as garbled
+spaced-out characters when read as plain text) and was missing half its actual dependencies.
+A fresh <code>pip install -r requirements.txt</code> would silently fail to install
+<code>fastapi</code> itself. <strong>Lesson:</strong> a file that "looks right" in your
+editor can still be wrong at the byte level — this is exactly the kind of bug that only
+shows up on someone else's machine.</p>
+
+<h3>2. A crashing endpoint</h3>
+<p><code>book_service.create_book</code> built a <code>BookCreate</code> — a Pydantic
+validation schema, not a database model — and passed it to <code>db.add()</code>.
+SQLAlchemy has no idea what to do with an object that isn't one of its mapped classes, so
+every single call to this endpoint raised an exception. <strong>Lesson:</strong> a
+schema and a model can look superficially similar (same field names) while being
+completely different kinds of object — mixing them up is an easy, silent mistake if you're
+not careful about which layer you're in.</p>
+
+<h3>3. A wrong-column bug</h3>
+<p><code>remove_item_from_cart</code> filtered <code>ShoppingCart.id == user_id</code>
+instead of <code>ShoppingCart.user_id == user_id</code> — a one-character difference that
+only breaks for the (very common) case where a cart's id happens to differ from its owner's
+user id. <strong>Lesson:</strong> bugs like this hide well in manual testing, because if
+you're the first or only user, your cart id and user id often line up by coincidence.</p>
+
+<h3>4. Writing a .env file with PowerShell's <code>echo &gt;</code></h3>
+<p>While setting up local development, running <code>echo DATABASE_URL=... &gt; .env</code>
+in PowerShell wrote the file in UTF-16 — Windows PowerShell's default redirection encoding —
+which <code>python-dotenv</code> can't parse, causing a <code>UnicodeDecodeError</code> on
+startup. <strong>Lesson:</strong> the exact same encoding trap can bite you twice in one
+project if you don't recognize the pattern the second time; it's now called out explicitly
+in this project's README.</p>
+
+<h3>5. An IDOR vulnerability</h3>
+<p>Covered in Section 5 — no endpoint checked that the caller actually owned the resource
+they were accessing. <strong>Lesson:</strong> "does it work" and "is it secure" are
+different questions, and only one of them is obvious from clicking around the app
+yourself.</p>
+
+
+<!-- ============ 12 ============ -->
+<h1>12. A playbook for building your own version of this</h1>
+
+<p>If you're starting a similar project from scratch, here's a condensed, opinionated order
+of operations, distilled from the timeline in Section 2:</p>
+
+<ol>
+<li><strong>Get the domain model right first.</strong> What are the real entities (users,
+products, orders...) and how do they relate? Sketch this before writing any code — schema
+changes get more expensive the more code depends on them.</li>
+<li><strong>Build the thinnest possible vertical slice</strong> — one resource, one CRUD
+endpoint, working end to end — before building the rest breadth-first. This catches
+structural problems (framework setup, database connection, deployment target) early, when
+they're cheap to fix.</li>
+<li><strong>Add authentication before you add more than one or two protected
+endpoints.</strong> Retrofitting auth onto ten already-built endpoints means touching all
+ten; adding it after one or two means the pattern is established once.</li>
+<li><strong>Write authorization checks as you write each endpoint, not as a separate later
+pass.</strong> This project did do it as a separate pass, and it worked — but only because
+the codebase was still small. On anything larger, "add auth later" reliably means "some
+endpoints get missed."</li>
+<li><strong>Add migrations as soon as your schema stabilizes even a little.</strong> Every
+day you delay is another schema change that's harder to express as a clean migration
+later.</li>
+<li><strong>Write tests for the behavior you're least confident about first</strong> —
+usually authorization boundaries and anything with tricky business rules (max-3-wishlists,
+create-or-update semantics). Tests for simple CRUD are nice to have; tests for "can user B
+see user A's data" are the ones that actually catch real bugs.</li>
+<li><strong>Containerize once the app is stable enough that you're not fighting the
+Dockerfile and the application code at the same time.</strong></li>
+<li><strong>Build the frontend against a real, running API</strong> — not mocked data. This
+is what surfaces API design gaps (like the missing catalog search endpoint here) while
+they're still cheap to add.</li>
+<li><strong>Document last, but don't skip it.</strong> A README that explains real,
+verified setup steps is worth more than one written speculatively before you know what
+actually works.</li>
+</ol>
+
+<div class="callout tip">
+<span class="label">The meta-lesson</span>
+Almost every "hardening" step in this guide is really the same move applied to a different
+layer: find the place where the code currently trusts something it shouldn't (a client
+input, an unhashed password, an untested assumption, an unversioned schema, a
+manually-run checklist) and replace that trust with a mechanism that enforces it
+automatically. That single habit — <em>don't trust what you can verify</em> — is most of
+what separates a working prototype from production-shaped code.
+</div>
+
+
+<!-- ============ 13 ============ -->
+<h1>13. Appendix: commands, tech stack, folder structure</h1>
+
+<h2>Tech stack</h2>
+<table>
+<tr><th style="width:22%">Layer</th><th>Tools</th></tr>
+<tr><td>API</td><td>FastAPI, Pydantic v2, Uvicorn</td></tr>
+<tr class="alt"><td>ORM / DB</td><td>SQLAlchemy 2.0, MySQL, Alembic</td></tr>
+<tr><td>Auth</td><td>JWT (python-jose), bcrypt (passlib)</td></tr>
+<tr class="alt"><td>Testing</td><td>pytest, httpx, SQLite (test-only)</td></tr>
+<tr><td>Frontend</td><td>React, TypeScript, Vite, React Router</td></tr>
+<tr class="alt"><td>Infra</td><td>Docker Compose, GitHub Actions</td></tr>
+</table>
+
+<h2>Everyday commands</h2>
+<pre><code># Backend
+python -m venv .venv &amp;&amp; .venv\Scripts\activate
+pip install -r requirements.txt
+alembic upgrade head
+uvicorn app.main:app --reload
+pytest
+
+# Frontend
+cd frontend &amp;&amp; npm install &amp;&amp; npm run dev
+npm run build
+
+# Docker
+docker compose up --build
+docker compose down
+
+# Grant admin (no HTTP endpoint for this -- see Section 5)
+python scripts/make_admin.py yourusername
+
+# New migration after changing a model
+alembic revision --autogenerate -m "describe the change"
+alembic upgrade head</code></pre>
+
+<h2>Folder structure</h2>
+<pre><code>app/
+  main.py              FastAPI app, CORS, router registration
+  database.py          engine/session setup
+  core/security.py     password hashing, JWT encode/decode
+  api/
+    deps.py            get_db, get_current_user, get_current_admin_user
+    routers/           HTTP layer -- one file per resource
+  services/            business logic + DB queries
+  models/              SQLAlchemy ORM classes
+  schemas/             Pydantic request/response shapes
+alembic/               versioned schema migrations
+tests/                 pytest suite (isolated SQLite per test)
+scripts/make_admin.py  CLI-only admin grant (no HTTP equivalent)
+frontend/src/
+  api/                 typed fetch client + one module per resource
+  context/             AuthContext (JWT + current user)
+  components/          NavBar, BookCard, StarRating, ProtectedRoute
+  pages/                Catalog, book detail, cart, wishlist, auth, profile, admin</code></pre>
+
+<p class="small">This guide was generated to accompany the BiblioTech repository. For the
+most current setup instructions, always defer to the README in the repository itself —
+this document reflects the state of the project as of its generation date.</p>
+
+</body>
+</html>
