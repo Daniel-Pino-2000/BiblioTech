@@ -1,3 +1,6 @@
+"""Author records -- deliberately the thinnest service in the app (see
+routers/author.py for why there's no list-all endpoint)."""
+
 from sqlalchemy.orm import Session
 from app.models import Author, Book
 

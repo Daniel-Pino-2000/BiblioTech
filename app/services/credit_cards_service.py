@@ -1,3 +1,9 @@
+"""
+Credit card storage. The full card number is validated at the API boundary
+(app/schemas/credit_card.py) but only the last 4 digits ever reach this
+function or the database -- see the README's Security notes section.
+"""
+
 from sqlalchemy.orm import Session
 from app.models.user import User
 from app.models.credit_card import CreditCard

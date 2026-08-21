@@ -4,6 +4,9 @@ from app.database import Base
 
 
 class Comment(Base):
+    """A freeform comment on a book. Unlike Rating, a user can leave any
+    number of comments on the same book -- there's no uniqueness constraint."""
+
     __tablename__ = "comments"
 
     id = Column(Integer, primary_key=True, index=True)

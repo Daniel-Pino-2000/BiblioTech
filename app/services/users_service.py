@@ -1,4 +1,9 @@
-# Service layer contains business logic and DB operations
+"""
+User account business logic: lookup, registration, profile updates, and
+login verification. Passwords never appear in plaintext past this module --
+create_user/update_user hash on the way in, authenticate_user verifies
+without ever decrypting (bcrypt hashes aren't reversible).
+"""
 
 from sqlalchemy.orm import Session
 from app.core.security import hash_password, verify_password

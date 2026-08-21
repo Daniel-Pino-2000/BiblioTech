@@ -1,3 +1,10 @@
+"""
+Database connectivity: builds the SQLAlchemy engine/session factory from
+environment variables and defines the declarative Base every model inherits
+from. Imported by app.main, Alembic (alembic/env.py), and every service that
+needs a DB session.
+"""
+
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
@@ -29,6 +36,12 @@ class Base(DeclarativeBase):
 
 # Provides a database session for each request
 def get_db():
+    """
+    FastAPI dependency that yields one Session per request and always closes
+    it afterwards, even if the endpoint raises. Superseded by app.api.deps.get_db
+    in practice (routers import from there so auth deps share the same module),
+    but kept here since Alembic and ad-hoc scripts import SessionLocal directly.
+    """
     db = SessionLocal()
     try:
         yield db

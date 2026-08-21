@@ -7,6 +7,9 @@ from app.database import Base
 
 
 class Rating(Base):
+    """A user's 0-5 rating of a book. One per (user, book) pair -- rating_service
+    updates the existing row instead of inserting a second one on a re-rate."""
+
     __tablename__ = "ratings"
 
     id = Column(Integer, primary_key=True, index=True)

@@ -1,3 +1,7 @@
+"""Catalog queries and mutations: browsing/search/filtering, admin writes
+(create_book, discount_books_by_publisher), and the rating-join used by
+get_books_by_min_rating."""
+
 from decimal import Decimal
 
 from sqlalchemy.orm import Session

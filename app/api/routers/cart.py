@@ -1,3 +1,9 @@
+"""
+Per-user shopping cart. Every route takes user_id and every route checks
+that user_id matches the caller's own id (_ensure_self) -- otherwise any
+logged-in user could read or empty a stranger's cart just by guessing ids.
+"""
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import text

@@ -1,3 +1,7 @@
+"""Login and "who am I" endpoints. Registration lives in routers/users.py
+(POST /users) since a new user is a resource being created, not an auth
+action -- only issuing/reading a token belongs here."""
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
@@ -35,4 +39,7 @@ def login(
 
 @router.get("/me", response_model=UserResponse)
 def read_current_user(current_user: User = Depends(get_current_user)):
+    """Return the profile of whoever the bearer token belongs to.
+
+    Used by the frontend on load to restore a session from a stored token."""
     return current_user

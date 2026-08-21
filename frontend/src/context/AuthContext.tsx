@@ -1,3 +1,10 @@
+/**
+ * Session state for the whole app: the current user (or null), and
+ * login/register/logout. The JWT itself lives in localStorage (api/client.ts);
+ * this context just tracks who it belongs to. On mount it tries to restore a
+ * session from a stored token via GET /auth/me -- this is what lets a
+ * refresh keep you logged in instead of bouncing to /login.
+ */
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import * as authApi from "../api/auth";

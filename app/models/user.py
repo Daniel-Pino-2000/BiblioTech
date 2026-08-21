@@ -2,11 +2,12 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Boolean, Column, Integer, String
 from app.database import Base
 
-# Always close session after request
 class User(Base):
+    """An account. is_admin gates catalog-write routes; there's no signup
+    flag for it -- see scripts/make_admin.py."""
+
     __tablename__ = "users"
 
-    # SQLAlchemy model representing the "users" table
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     # Unique username used for login/identification

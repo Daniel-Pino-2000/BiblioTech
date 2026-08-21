@@ -1,3 +1,9 @@
+/**
+ * Thin fetch wrapper shared by every module in api/*.ts: attaches the JWT
+ * (when `auth: true`), serializes JSON or form bodies, builds query strings,
+ * and turns a non-2xx response into a typed ApiError with the backend's
+ * actual error message instead of a generic "Failed to fetch".
+ */
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 const TOKEN_KEY = "bibliotech_token";
 

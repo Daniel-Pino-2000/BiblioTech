@@ -1,17 +1,20 @@
-from sqlalchemy.orm import Session
-from sqlalchemy import func
-from app.models.rating import Rating
-from app.models.comment import Comment
-from app.services.users_service import get_user_by_id
-from typing import cast
-
 """
 rating_service.py
 
 Contains all business logic related to ratings and comments.
 Routers should call these functions instead of directly querying the database.
 This ensures separation of concerns and keeps business logic centralized.
+
+create_rating is create-or-update: a book can only carry one rating per user,
+so a repeat call overwrites rather than inserting a second row.
 """
+
+from sqlalchemy.orm import Session
+from sqlalchemy import func
+from app.models.rating import Rating
+from app.models.comment import Comment
+from app.services.users_service import get_user_by_id
+from typing import cast
 
 # Constants used for error handling across the service layer
 USER_NOT_FOUND = "USER_NOT_FOUND"

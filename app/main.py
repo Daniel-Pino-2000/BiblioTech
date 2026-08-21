@@ -1,3 +1,8 @@
+"""
+Application entrypoint: builds the FastAPI app, configures CORS, and wires up
+every router. Run with `uvicorn app.main:app --reload` (see README).
+"""
+
 import os
 
 from fastapi import FastAPI
@@ -46,11 +51,13 @@ if os.getenv("AUTO_CREATE_TABLES", "false").lower() == "true":
 
 @app.get("/")
 def root():
+    """Liveness check with no dependencies -- just confirms the process is up."""
     return {"message": "BiblioTech API running"}
 
 
 @app.get("/health")
 def health():
+    """Readiness check -- also confirms the database is reachable."""
     try:
         with engine.connect():
             return {"status": "ok"}

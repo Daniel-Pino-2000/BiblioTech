@@ -2,8 +2,10 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app.database import Base
 
-# Relationship: one user can have many credit cards
 class CreditCard(Base):
+    """A saved card, one user to many cards. Stores last4 only -- see the
+    README's Security notes for why the full PAN never reaches this table."""
+
     __tablename__ = "credit_cards"
 
     # Primary key

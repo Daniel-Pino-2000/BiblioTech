@@ -5,6 +5,9 @@ from app.database import Base
 
 
 class Author(Base):
+    """An author. Optional on Book (author_id is nullable, ON DELETE SET NULL) --
+    a book doesn't stop existing if its author record is removed."""
+
     __tablename__ = "authors"
 
     id = Column(Integer, primary_key=True)

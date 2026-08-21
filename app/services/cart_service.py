@@ -1,9 +1,16 @@
+"""
+Shopping cart business logic. Every user gets exactly one ShoppingCart,
+created lazily on first access (get_user_cart) rather than at registration --
+there's no reason to allocate a cart row for someone who never shops.
+"""
+
 from decimal import Decimal
 from sqlalchemy.orm import Session
 from app.models.cart import ShoppingCart, CartItem
 from app.models.book import Book
 
 def get_user_cart(db: Session, user_id: int):
+    """Return the user's cart, creating an empty one on first access."""
     # Stores the first cart found in the database into 'cart' variable
     cart = db.query(ShoppingCart).filter(ShoppingCart.user_id == user_id).first()
     
@@ -27,6 +34,7 @@ def calculate_subtotal(db: Session, user_id: int):
 
 
 def add_item_to_cart(db: Session, user_id: int, book_id: int):
+    """Add one copy of a book to the cart, or bump quantity if it's already there."""
     # Retrieves the user's cart
     cart = get_user_cart(db, user_id)
 
@@ -54,6 +62,7 @@ def add_item_to_cart(db: Session, user_id: int, book_id: int):
 
 
 def remove_item_from_cart(db: Session, user_id: int, book_id: int):
+    """Decrement quantity by one, deleting the row entirely once it hits zero."""
     # Find the user's cart
     cart = db.query(ShoppingCart).filter(ShoppingCart.user_id == user_id).first()
     if not cart:

@@ -8,7 +8,7 @@ class CartItemRead(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-# Schema that returns a lost of the books in a specific user's cart
+# Schema that returns a list of the books in a specific user's cart
 class CartResponse(BaseModel):
     user_id: int
     user_name: str

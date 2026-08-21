@@ -1,15 +1,19 @@
-from sqlalchemy.orm import Session
-from app.models.wishlist import Wishlist
-from app.models.wishlist_item import WishlistItem
-from app.services.users_service import get_user_by_id
-
 """
 wishlist_service.py
 
 Contains all business logic related to wishlist management.
 Responsible for validation, enforcing business rules, and interacting with the database.
 Routers should delegate operations to this service instead of handling logic directly.
+
+Ownership (does this wishlist belong to the caller?) is checked by the router,
+not here -- this module only enforces business rules that hold regardless of
+who's asking (max 3 wishlists, no duplicate names, no duplicate books).
 """
+
+from sqlalchemy.orm import Session
+from app.models.wishlist import Wishlist
+from app.models.wishlist_item import WishlistItem
+from app.services.users_service import get_user_by_id
 
 # Error constants used for consistent error handling
 USER_NOT_FOUND = "USER NOT FOUND"
