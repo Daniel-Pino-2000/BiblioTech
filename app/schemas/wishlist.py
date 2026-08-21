@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
 from app.schemas.book import BookResponse
@@ -12,8 +12,7 @@ class WishlistResponse(BaseModel):
     user_id: int
     name: str = Field(min_length = 1, max_length = 100)
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # -------------------------
@@ -54,5 +53,4 @@ class WishlistItemResponse(BaseModel):
     book_id: int
     book: BookResponse
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
 class BookCreate(BaseModel):
@@ -55,5 +55,4 @@ class BookResponse(BaseModel):
     # Computed field: average rating of the book (if available)
     average_rating: Optional[float] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

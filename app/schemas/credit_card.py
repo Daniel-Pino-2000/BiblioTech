@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 
 
 class CreditCardCreate(BaseModel):
@@ -24,5 +24,4 @@ class CreditCardResponse(BaseModel):
     exp_month: int
     exp_year: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

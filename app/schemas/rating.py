@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 class RatingCreate(BaseModel):
     rating: int = Field(ge=0, le=5)
@@ -10,5 +10,4 @@ class RatingResponse(BaseModel):
     book_id: int
     rating: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
