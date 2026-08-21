@@ -1,7 +1,8 @@
 from decimal import Decimal
 
 from sqlalchemy.orm import Session
-from app.models import Book, Author
+from app.models.book import Book
+from app.models.author import Author
 
 from sqlalchemy import func
 from app.models.rating import Rating
@@ -104,7 +105,7 @@ def get_books_by_min_rating(db: Session, min_rating: float):
 
 # Insert a new book record into the database
 def create_book(db: Session, book: BookCreate):
-    book = BookCreate(
+    new_book = Book(
         isbn=book.isbn,
         title=book.title,
         description=book.description,
@@ -115,10 +116,10 @@ def create_book(db: Session, book: BookCreate):
         copies_sold=book.copies_sold,
         author_id=book.author_id,
     )
-    db.add(book)
+    db.add(new_book)
     db.commit()
-    db.refresh(book)
-    return book
+    db.refresh(new_book)
+    return new_book
 
 # Fetch a book from the database by its ISBN
 def get_book_by_isbn(db: Session, isbn: str):

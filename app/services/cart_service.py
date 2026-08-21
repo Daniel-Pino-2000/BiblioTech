@@ -55,7 +55,7 @@ def add_item_to_cart(db: Session, user_id: int, book_id: int):
 
 def remove_item_from_cart(db: Session, user_id: int, book_id: int):
     # Find the user's cart
-    cart = db.query(ShoppingCart).filter(ShoppingCart.id == user_id).first()
+    cart = db.query(ShoppingCart).filter(ShoppingCart.user_id == user_id).first()
     if not cart:
         return False
 
