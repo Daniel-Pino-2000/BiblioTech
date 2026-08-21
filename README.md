@@ -69,49 +69,63 @@ frontend/src/
 
 ## Running locally
 
-### Option A — Docker Compose (backend + MySQL)
+Backend setup is the same first four steps regardless of path — only the database
+differs:
 
 ```bash
-cp .env.example .env   # edit SECRET_KEY at minimum
+python -m venv .venv
+.venv\Scripts\activate         # .venv/bin/activate on macOS/Linux
+pip install -r requirements.txt
+
+cp .env.example .env
+```
+
+### Option A — SQLite (fastest, zero external dependencies)
+
+In `.env`, set:
+
+```text
+DATABASE_URL=sqlite:///./dev.db
+SECRET_KEY=dev-secret-change-me
+```
+
+```bash
+alembic upgrade head
+uvicorn app.main:app --reload
+```
+
+> **Windows PowerShell note:** if you write `.env` with `echo ... > .env` instead of
+> editing it in a text editor, PowerShell's default redirection encoding is UTF-16,
+> which `python-dotenv` can't parse and `alembic`/`uvicorn` will fail with a
+> `UnicodeDecodeError`. Edit the file directly (or use `Set-Content -Encoding ascii`)
+> instead of `echo >`.
+
+### Option B — MySQL (matches production)
+
+Either run MySQL yourself and fill in the `DB_*` values in `.env`, or use Docker Compose
+to get both MySQL and the API in one step (migrations run automatically on container
+start):
+
+```bash
 docker compose up --build
 ```
 
-The API comes up on `http://localhost:8000` (migrations run automatically on container
-start) and interactive docs are at `http://localhost:8000/docs`.
+API is at `http://localhost:8000` either way; interactive docs at `/docs`.
 
-Then run the frontend separately (Vite's dev server isn't containerized so you get fast
-HMR):
+> Docker Compose wasn't runnable in the environment this project was built in (no local
+> Docker install to test against) — the Dockerfile and compose file were written and
+> reviewed carefully, but if something's off, it hasn't been verified end-to-end.
+
+### Frontend (either backend option)
 
 ```bash
 cd frontend
-cp .env.example .env.local   # VITE_API_URL defaults to http://localhost:8000
+cp .env.example .env.local   # VITE_API_URL defaults to http://localhost:8000, fine for local dev
 npm install
 npm run dev
 ```
 
 Visit `http://localhost:5173`.
-
-### Option B — Fully manual
-
-Backend (requires a running MySQL instance):
-
-```bash
-python -m venv .venv
-.venv/Scripts/activate        # .venv/bin/activate on macOS/Linux
-pip install -r requirements.txt
-
-cp .env.example .env          # set DB_* and SECRET_KEY
-alembic upgrade head
-uvicorn app.main:app --reload
-```
-
-Frontend:
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
 
 ### Creating an admin user
 
