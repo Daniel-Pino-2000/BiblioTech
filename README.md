@@ -117,15 +117,20 @@ npm run dev
 
 Catalog writes require `is_admin`: adding a book through the frontend's `/admin` page
 (`POST /books/create-book`), plus `PATCH /books/discount` and `POST /authors/create-author`
-via `/docs` (there's no in-app UI for those two yet). Register a normal user via the API or
-UI, then flip the flag directly in the database:
+via `/docs` (there's no in-app UI for those two yet).
 
-```sql
-UPDATE users SET is_admin = 1 WHERE username = 'yourusername';
+There is deliberately no API endpoint for granting admin — it's a privileged action, so it
+shouldn't be reachable from the running app at all. Register a normal user, then promote
+them with the CLI script instead:
+
+```bash
+python scripts/make_admin.py yourusername
 ```
 
-Once flagged, log back in (or just refresh if already logged in) and an **Admin** link
-appears in the navbar.
+It runs against whatever database `DATABASE_URL`/`.env` currently points at, so the same
+script works locally or against a deployed database (point `DATABASE_URL` at it
+temporarily). Once flagged, log back in (or refresh if already logged in) and an **Admin**
+link appears in the navbar.
 
 ---
 
