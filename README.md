@@ -115,13 +115,17 @@ npm run dev
 
 ### Creating an admin user
 
-Catalog writes (`POST /books/create-book`, `PATCH /books/discount`,
-`POST /authors/create-author`) require `is_admin`. Register a normal user via the API or
+Catalog writes require `is_admin`: adding a book through the frontend's `/admin` page
+(`POST /books/create-book`), plus `PATCH /books/discount` and `POST /authors/create-author`
+via `/docs` (there's no in-app UI for those two yet). Register a normal user via the API or
 UI, then flip the flag directly in the database:
 
 ```sql
 UPDATE users SET is_admin = 1 WHERE username = 'yourusername';
 ```
+
+Once flagged, log back in (or just refresh if already logged in) and an **Admin** link
+appears in the navbar.
 
 ---
 

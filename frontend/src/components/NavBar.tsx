@@ -20,6 +20,7 @@ export function NavBar() {
         {user && <Link to="/cart">Cart</Link>}
         {user && <Link to="/wishlist">Wishlist</Link>}
         {user && <Link to="/profile">Profile</Link>}
+        {user?.is_admin && <Link to="/admin">Admin</Link>}
       </nav>
       <div className="nav-auth">
         {user ? (

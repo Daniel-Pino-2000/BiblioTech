@@ -8,6 +8,7 @@ import { RegisterPage } from "./pages/RegisterPage";
 import { CartPage } from "./pages/CartPage";
 import { WishlistPage } from "./pages/WishlistPage";
 import { ProfilePage } from "./pages/ProfilePage";
+import { AdminPage } from "./pages/AdminPage";
 
 function App() {
   return (
@@ -40,6 +41,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminPage />
               </ProtectedRoute>
             }
           />

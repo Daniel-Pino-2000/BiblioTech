@@ -1,8 +1,23 @@
 import { apiRequest } from "./client";
 import type { Book, Comment, Rating } from "./types";
 
+export interface BookCreateInput {
+  isbn: string;
+  title: string;
+  description?: string;
+  price: string;
+  genre?: string;
+  publisher?: string;
+  year_published?: number;
+  copies_sold?: number;
+}
+
 export function listBooks(params: { search?: string; genre?: string; skip?: number; limit?: number }) {
   return apiRequest<Book[]>("/books", { params });
+}
+
+export function createBook(data: BookCreateInput) {
+  return apiRequest<Book>("/books/create-book", { method: "POST", body: data, auth: true });
 }
 
 export function getBookByIsbn(isbn: string) {
