@@ -13,10 +13,10 @@ def create_credit_card_for_user(db: Session, username: str, data: CreditCardCrea
     if not user:
         return False
 
-    # Create credit card object linked to user_id
+    # Create credit card object linked to user_id (only last 4 digits retained)
     card = CreditCard(
         user_id=user.id,
-        card_number=data.card_number,
+        last4=data.card_number[-4:],
         card_holder_name=data.card_holder_name,
         exp_month=data.exp_month,
         exp_year=data.exp_year,

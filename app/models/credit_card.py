@@ -12,8 +12,8 @@ class CreditCard(Base):
     # Foreign key linking credit card to a user
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
 
-    # Credit card details
-    card_number = Column(String(25), nullable=False)
+    # Only the last 4 digits are retained; the full PAN is never persisted.
+    last4 = Column(String(4), nullable=False)
     card_holder_name = Column(String(100), nullable=False)
     exp_month = Column(Integer, nullable=False)
     exp_year = Column(Integer, nullable=False)
